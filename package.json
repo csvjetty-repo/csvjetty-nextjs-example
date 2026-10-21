@@ -1,0 +1,29 @@
+{
+  "name": "csvjetty-nextjs-example",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "csvjetty": "^0.5.4",
+    "next": "16.4.2",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^9",
+    "eslint-config-next": "16.4.2"
+  },
+  "description": "Next.js CSV import example powered by CSVJetty",
+  "license": "MIT",
+  "author": "CSVJetty",
+  "homepage": "https://www.csvjetty.com/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/csvjetty-repo/csvjetty-nextjs-example.git"
+  }
+}
