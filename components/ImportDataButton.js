@@ -11,6 +11,11 @@ export default function ImportDataButton() {
       <CSVJetty
         importerKey="3c4ebb5f-6ccb-484d-a681-bf9e1da7c588"
         baseUrl="https://www.csvjetty.com"
+        columns={[
+          { name: "name", label: "Full name", type: "text", required: true },
+          { name: "email", label: "Email address", type: "email", required: true },
+          { name: "company", label: "Company", type: "text" },
+        ]}
         onData={async ({ rows, importId, rowNumbers }) => {
           setReceived({ rows, importId, rowNumbers });
         }}

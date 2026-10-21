@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint ."
   },
   "dependencies": {
     "csvjetty": "^0.5.4",
@@ -25,5 +25,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/csvjetty-repo/csvjetty-nextjs-example.git"
+  },
+  "engines": {
+    "node": ">=20.9.0"
   }
 }

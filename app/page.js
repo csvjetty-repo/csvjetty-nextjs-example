@@ -14,7 +14,7 @@ export default function Home() {
       <div className="card">
         <h2>Try an import</h2>
         <ol>
-          <li>Use a CSV matching the configured importer fields.</li>
+          <li>Download the sample contacts CSV below.</li>
           <li>Click Import Data and upload your file.</li>
           <li>Review the column mapping and correct any errors.</li>
           <li>Complete the import to see the received records below.</li>
@@ -25,11 +25,19 @@ export default function Home() {
           <a href="/sample-contacts.csv" download>
             sample contacts CSV
           </a>{" "}
-          is included. It works with an importer configured for name,
-          email, and company. One email is deliberately invalid.
+          contains three fictional contacts. Change invalid-email to
+          sam@example.com in the correction table before completing the import.
         </p>
 
         <ImportDataButton />
+
+        <p className="demo-note">
+          This example uses a shared hosted importer. Use fictional data.
+          If it is unavailable or its allowance is exhausted, create your own{" "}
+          <a href="https://www.csvjetty.com/">CSVJetty importer</a>, select
+          callback delivery, and replace the public key in{" "}
+          <code>components/ImportDataButton.js</code>.
+        </p>
       </div>
 
       <footer>
