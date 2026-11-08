@@ -1,6 +1,6 @@
 # CSVJetty Next.js Example
 
-Try CSV upload, column mapping, validation, and inline corrections in a Next.js App Router project using the published CSVJetty React component. Import results appear as JSON in your browser.
+Try CSV upload, column mapping, validation, and inline corrections in a Next.js Pages Router project using the published CSVJetty React component. Import results appear as JSON in your browser.
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/fork/github/csvjetty-repo/csvjetty-nextjs-example)
 
@@ -58,3 +58,7 @@ npm start
 ## License
 
 [MIT](LICENSE) for this example. CSVJetty service and package terms are separate.
+
+## StackBlitz compatibility
+
+This small example uses the Pages Router and starts with Webpack. The tested StackBlitz environment could not run Turbopack, and its App Router request failed with an uninitialized workStore. This configuration preserves the same React component, hosted importer, sample, and callback. The npm package also supports App Router applications on supported Node.js hosts.
