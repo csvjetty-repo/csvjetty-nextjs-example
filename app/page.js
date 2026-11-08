@@ -25,18 +25,15 @@ export default function Home() {
           <a href="/sample-contacts.csv" download>
             sample contacts CSV
           </a>{" "}
-          contains three fictional contacts. Change invalid-email to
-          sam@example.com in the correction table before completing the import.
+          contains three fictional contacts. Correct Grace’s email to
+          grace@example.com and Katherine’s date to 2026-03-20 before importing.
         </p>
 
         <ImportDataButton />
 
         <p className="demo-note">
-          This example uses a shared hosted importer. Use fictional data.
-          If it is unavailable or its allowance is exhausted, create your own{" "}
-          <a href="https://www.csvjetty.com/">CSVJetty importer</a>, select
-          callback delivery, and replace the public key in{" "}
-          <code>components/ImportDataButton.js</code>.
+          No account, importer key, or environment variables required. Your CSV
+          and imported records stay in this browser tab. Reloading clears them.
         </p>
       </div>
 

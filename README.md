@@ -1,90 +1,51 @@
 # CSVJetty Next.js Example
 
-Add CSV upload, column mapping, validation, and inline corrections to a
-Next.js app with [CSVJetty](https://www.csvjetty.com/). This example receives
-records through an `onData` callback and displays them as JSON.
+Try CSV upload, column mapping, validation, and inline corrections in a Next.js App Router project using the published CSVJetty React component. Import results appear as JSON in your browser.
 
-[Documentation](https://www.csvjetty.com/docs) · [npm package](https://www.npmjs.com/package/csvjetty)
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/fork/github/csvjetty-repo/csvjetty-nextjs-example)
+
+[Live demo](https://www.csvjetty.com/demo) · [Documentation](https://www.csvjetty.com/docs) · [npm package](https://www.npmjs.com/package/csvjetty)
 
 ## Run locally
 
-Requires Node.js 20.9 or newer and npm. `.nvmrc` selects Node.js 22 for nvm users.
-An internet connection is required to load the hosted importer.
+Requires Node.js 20.9 or newer and npm. `.nvmrc` selects Node.js 22 for nvm users. An internet connection is required to load the hosted importer.
 
 ```bash
 git clone https://github.com/csvjetty-repo/csvjetty-nextjs-example.git
 cd csvjetty-nextjs-example
-# Optional, if you use nvm:
-# nvm install
-# nvm use
 npm ci
 npm run dev
 ```
 
-Open http://localhost:3000. No environment variables are needed. The example
-includes a public shared importer key, so you can try it without creating
-an account while that importer is available and within its usage allowance.
+Open http://localhost:3000. No account, importer key, or environment variables required.
 
 ## Try the sample
 
 1. Download **sample contacts CSV** from the page.
-2. Click **Import Data** and select the downloaded file.
-3. Review the mappings for `name`, `email`, and `company`.
-4. Correct `invalid-email` to `sam@example.com` in the review table.
-5. Complete the import. The received records appear below the button.
+2. Click **Import Data** and upload the downloaded file.
+3. Review the mappings for `name`, `email`, and `joined`.
+4. Correct Grace’s email to `grace@example.com` and Katherine’s date to `2026-03-20`. Import is blocked until both errors are corrected.
+5. Import and close the modal to inspect the received records and metadata.
 
-The columns and validation rules are defined directly in
-`components/ImportDataButton.js`, overriding the dashboard columns for the
-session. The included CSV contains three fictional contacts. Use synthetic
-data with the shared demonstration importer.
+The example uses `csvjetty@0.5.6`, with `demo` enabled and `baseUrl="https://www.csvjetty.com"`. Demo mode uses CSVJetty’s built-in contacts fields and calls the page’s `onData` handler without reserving a database session or consuming an account’s allowance. Uploaded files and records stay in the browser. The page shows the first 20 records; reloading clears them. It does not save records to a database.
 
 ## Use your own importer
 
-CSVJetty is a hosted service. The MIT license covers this example code;
-running your own importer requires a CSVJetty account and public importer
-key, subject to the service's [current plans and limits](https://www.csvjetty.com/#pricing).
-The key identifies an importer; it is not a secret credential.
+For a production integration:
 
-1. Create an importer at https://www.csvjetty.com/.
-2. Select **OnData Callback** delivery.
-3. Replace `importerKey` in `components/ImportDataButton.js` with your public key.
-4. Keep the supplied `columns` prop to use the sample, or edit both the columns
-   and sample CSV for your application.
+1. Create an importer at https://www.csvjetty.com/ and select **OnData Callback** delivery.
+2. Configure required `name` (text), `email` (email), and `joined` (date) fields to match this sample. Set aliases `Full Name`, `Email Address`, and `Joined On` for automatic mapping. Enable blocking invalid rows.
+3. In `components/ImportDataButton.js`, remove `demo` and add `importerKey="YOUR_PUBLIC_IMPORTER_KEY"`. Keep the existing `baseUrl`.
+4. Replace the state-only callback with a request to your own authenticated backend. Validate and authorize records there, await saving, and throw if saving fails. Handle retries using the import ID and source row numbers.
 
-No webhook or database setup is required for this example.
-
-## How it works
-
-`components/ImportDataButton.js` is the client component containing the
-integration. `columns` defines the output keys and validation rules:
-
-| Key | Type | Required |
-| --- | --- | --- |
-| name | Text | Yes |
-| email | Email | Yes |
-| company | Text | No |
-
-The `onData` callback receives `rows`, `importId`, and `rowNumbers`.
-The example stores the payload in React state and displays the first 20
-records plus import metadata. Reloading the page clears those records.
-It does not save records to a database.
-
-To save records in production, replace the callback's `setReceived` call
-with a request to your own authenticated backend. Validate and authorize
-records there, and use the import ID and source row numbers to handle retries
-without duplicating writes. See the [callback documentation](https://www.csvjetty.com/docs).
+Production importers require an account and are subject to [service plans and limits](https://www.csvjetty.com/#pricing). The importer key is a public identifier, not a secret credential. See the [callback documentation](https://www.csvjetty.com/docs/callbacks).
 
 ## Troubleshooting
 
-- **Shared importer unavailable or allowance exhausted:** create your own
-  importer and replace the key using the steps above.
-- **Sample fields do not appear:** keep the supplied `columns` prop; it
-  configures this example's fields in code.
-- **No records appear after import:** check that your importer uses
-  **OnData Callback** delivery and finish the import after correcting errors.
-- **Importer does not load:** check your internet connection, browser console,
-  and any extensions or network rules blocking `https://www.csvjetty.com`.
-- **Port 3000 is occupied:** use the local URL printed by Next.js instead.
+- **Importer does not load:** check network access to `https://www.csvjetty.com`. In StackBlitz, try opening the preview in a separate tab.
+- **Different fields appear:** demo mode has a fixed contacts schema. Use a registered importer for custom fields.
+- **No records appear:** correct both sample errors, click Import, and close the modal.
+- **Port 3000 is occupied:** use the local URL printed by Next.js.
 
 ## Check and build
 

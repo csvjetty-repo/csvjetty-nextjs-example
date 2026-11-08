@@ -5,28 +5,28 @@ import CSVJetty from "csvjetty";
 
 export default function ImportDataButton() {
   const [received, setReceived] = useState(null);
+  const [completed, setCompleted] = useState(null);
 
   return (
     <section>
       <CSVJetty
-        importerKey="3c4ebb5f-6ccb-484d-a681-bf9e1da7c588"
+        demo
         baseUrl="https://www.csvjetty.com"
-        columns={[
-          { name: "name", label: "Full name", type: "text", required: true },
-          { name: "email", label: "Email address", type: "email", required: true },
-          { name: "company", label: "Company", type: "text" },
-        ]}
         onData={async ({ rows, importId, rowNumbers }) => {
           setReceived({ rows, importId, rowNumbers });
+          setCompleted(null);
         }}
+        onComplete={setCompleted}
       >
         Import Data
       </CSVJetty>
 
       {received && (
         <div className="results" aria-live="polite">
-          <h2>Import complete</h2>
-          <p>Received {received.rows.length} rows in your app.</p>
+          <h2>{completed ? "Import complete" : "Callback received"}</h2>
+          <p role="status">{completed
+            ? `${completed.accepted} records imported; ${completed.rejected} rejected.`
+            : `Received ${received.rows.length} rows. Completing the import…`}</p>
           <p>
             This example displays the first 20 rows without saving them
             to a database.

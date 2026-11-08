@@ -1,4 +1,4 @@
-name,email,company
-Alex Example,alex@example.com,Example Studio
-Sam Sample,invalid-email,Sample Company
-Jordan Demo,jordan@example.com,Demo Works
+Full Name,Email Address,Joined On
+Ada Lovelace,ada@example.com,2026-01-15
+Grace Hopper,grace.example.com,2026-02-10
+Katherine Johnson,katherine@example.com,not-a-date
