@@ -1,0 +1,32 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "contact-csv-import",
+  "type": "registry:block",
+  "title": "CSV Contact Import",
+  "description": "CSV contact upload with column mapping, validation, inline correction, and an account-free preview. MIT integration code for the hosted CSVJetty service.",
+  "dependencies": [
+    "csvjetty@^0.5.9"
+  ],
+  "registryDependencies": [
+    "card",
+    "table"
+  ],
+  "files": [
+    {
+      "path": "registry/new-york/contact-csv-import/contact-csv-import.jsx",
+      "type": "registry:component",
+      "content": "\"use client\";\n\nimport CSVJetty from \"csvjetty\";\nimport {\n  Card,\n  CardContent,\n  CardDescription,\n  CardHeader,\n  CardTitle,\n} from \"@/components/ui/card\";\n\nconst columns = [\n  {\n    name: \"name\",\n    label: \"Full name\",\n    type: \"text\",\n    required: true,\n    aliases: [\"Contact Name\", \"Full Name\"],\n  },\n  {\n    name: \"email\",\n    label: \"Email address\",\n    type: \"email\",\n    required: true,\n    aliases: [\"Work Email\", \"Email Address\"],\n  },\n  {\n    name: \"company\",\n    label: \"Company\",\n    type: \"text\",\n    aliases: [\"Organization\", \"Company Name\"],\n  },\n];\n\n/**\n * Use demo explicitly for the account-free preview. For real imports, supply\n * a public importerKey and an onData callback that saves to your own API.\n * The hosted CSVJetty service supplies the mapping and correction interface.\n */\nexport function ContactCsvImport({\n  importerKey,\n  demo = false,\n  onData,\n  onComplete,\n  onClose,\n  accentColor,\n}) {\n  return (\n    <Card>\n      <CardHeader>\n        <CardTitle>Import contacts</CardTitle>\n        <CardDescription>\n          Upload a CSV, match its columns, and correct invalid values before importing.\n          Name and email are required; company is optional.\n        </CardDescription>\n      </CardHeader>\n      <CardContent>\n        <CSVJetty\n          importerKey={importerKey}\n          demo={demo}\n          columns={columns}\n          onData={onData}\n          onComplete={onComplete}\n          onClose={onClose}\n          accentColor={accentColor}\n        >\n          Import contacts\n        </CSVJetty>\n      </CardContent>\n    </Card>\n  );\n}\n"
+    },
+    {
+      "path": "registry/new-york/contact-csv-import/contact-csv-import-demo.jsx",
+      "type": "registry:component",
+      "content": "\"use client\";\n\nimport { useState } from \"react\";\nimport { ContactCsvImport } from \"./contact-csv-import\";\nimport {\n  Table,\n  TableBody,\n  TableCell,\n  TableHead,\n  TableHeader,\n  TableRow,\n} from \"@/components/ui/table\";\n\nexport function ContactCsvImportDemo() {\n  const [batch, setBatch] = useState(null);\n\n  return (\n    <div className=\"space-y-6\">\n      <ContactCsvImport\n        demo\n        onData={(payload) => {\n          setBatch({ rows: payload.rows, rowNumbers: payload.rowNumbers });\n        }}\n      />\n      <p className=\"text-sm text-muted-foreground\">\n        Account-free demo. Records are displayed in this browser and are not saved\n        by this example. Refreshing clears the preview.\n      </p>\n      {batch && (\n        <section aria-label=\"Imported contacts preview\" className=\"space-y-3\">\n          <p role=\"status\" className=\"text-sm text-muted-foreground\">\n            Received {batch.rows.length} rows in the latest batch. Showing up to 10.\n          </p>\n          <Table>\n            <TableHeader>\n              <TableRow>\n                <TableHead>Name</TableHead>\n                <TableHead>Email</TableHead>\n                <TableHead>Company</TableHead>\n              </TableRow>\n            </TableHeader>\n            <TableBody>\n              {batch.rows.slice(0, 10).map((row, index) => (\n                <TableRow key={batch.rowNumbers[index]}>\n                  <TableCell>{String(row.name ?? \"\")}</TableCell>\n                  <TableCell>{String(row.email ?? \"\")}</TableCell>\n                  <TableCell>{String(row.company ?? \"\")}</TableCell>\n                </TableRow>\n              ))}\n            </TableBody>\n          </Table>\n        </section>\n      )}\n    </div>\n  );\n}\n"
+    },
+    {
+      "path": "registry/new-york/contact-csv-import/LICENSE",
+      "type": "registry:file",
+      "target": "~/docs/csvjetty-integration-LICENSE.txt",
+      "content": "MIT License\n\nCopyright (c) 2026 CSVJetty\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies\nof the Software, and to permit persons to whom the Software is furnished to do\nso, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n\nThis license covers these integration files. The hosted CSVJetty service has\nseparate terms and is not included in this source-code license.\n"
+    }
+  ]
+}
